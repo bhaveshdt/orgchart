@@ -1,0 +1,22 @@
+{
+	"name": "HTML5 Orgianization Chart",
+	"version": "0.0.1",
+	"description": "Create an HTML5-based Organization Chart with ancestors and descendants ",
+	"homepage": "https://github.com/bhaveshdt/orgchart",
+	"authors": [
+		"Bhavesh Thakker <bhaveshdt@hotmail.com>"
+	],
+	"license": "MIT",
+	"dependencies": {
+		"jquery": "~1.10.2"
+	},
+	"main": ["app/scripts/orgchart.js", "app/styles/orgchart.css"],
+	"keywords": [
+		"organizational",
+		"chart",
+		"orgchart",
+		"tree",
+		"structure",
+		"family"
+	]
+}
