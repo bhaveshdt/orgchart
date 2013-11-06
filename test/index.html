@@ -3,8 +3,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>Mocha Spec Runner</title>
-	<link rel="stylesheet" href="app/styles/orgchart.css">
+	<link rel="stylesheet" href="../src/styles/orgchart.css">
     <link rel="stylesheet" href="lib/mocha/mocha.css">
+		
 </head>
 <body>
     <div id="mocha"></div>
@@ -15,9 +16,10 @@
     <script>var expect = chai.expect</script>
 
     <!-- include source files here... -->
+	<script src="../src/scripts/orgchart.js"></script>
 
     <!-- include spec files here... -->
-    <script src="spec/test.js"></script>
+    <script src="main.js"></script>
 
     <script>mocha.run()</script>
 </body>

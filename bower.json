@@ -10,7 +10,7 @@
 	"dependencies": {
 		"jquery": "~1.10.2"
 	},
-	"main": ["app/scripts/orgchart.js", "app/styles/orgchart.css"],
+	"main": ["src/scripts/orgchart.js", "src/styles/orgchart.css"],
 	"keywords": [
 		"organizational",
 		"chart",
