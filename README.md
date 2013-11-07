@@ -1,10 +1,39 @@
-<html>
-<head>
+JavaScript-based Organizational Chart
+========================
+[![Build Status](https://travis-ci.org/bhaveshdt/orgchart.png?branch=master)](https://travis-ci.org/bhaveshdt/orgchart)
+
+
 <link rel="stylesheet" href="//raw.github.com/bhaveshdt/orgchart/master/src/styles/orgchart.css" />
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="//raw.github.com/bhaveshdt/orgchart/master/src/scripts/orgchart.js"></script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+</script>
+
+
+<script src="//raw.github.com/bhaveshdt/orgchart/master/src/scripts/orgchart.js">
+</script>
+
+
+<input id="showTreeInput" type="text" value="1" />
+
+
+<input type="radio" name="orientation" value="vertical" checked="checked" />
+
+
+<span>Vertical</span>
+
+
+<input type="radio" name="orientation" value="horizontal" />
+
+
+<span>Horizontal</span>
+
+
+<div id="family" ></div>
+
 
 <script type="text/javascript" >
+
 var data = [
 	[1, 2, 3, '111 Child'],
 	[2, 9, 21, '11 Child'],
@@ -30,6 +59,8 @@ var data = [
 	[22, null, null, '111 Child Spouse'],
 	[23, 16, null, '113211 Child']
 ];
+
+
 // Instantiate Chart Test Object
 var chart = new OrgChart({
 	data: data,
@@ -52,22 +83,3 @@ $('#showTreeInput').change(createChart);
 $('input[name="orientation"]').click(createChart);
 $('#showTreeInput').change();
 </script>
-</head>
-<body>
-
-<h1>JavaScript-based Organizational Chart</h1>
-<img src="https://travis-ci.org/bhaveshdt/orgchart.png?branch=master" />
-
-
-
-<input id="showTreeInput" type="text" value="1" />
-<input type="radio" name="orientation" value="vertical" checked="checked" />
-<span>Vertical</span>
-<input type="radio" name="orientation" value="horizontal" />
-<span>Horizontal</span>
-<hr />
-
-<div id="family" ></div>
-
-</body>
-</html>
