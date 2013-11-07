@@ -1,18 +1,9 @@
-// Generated on 2013-10-01 using generator-webapp 0.4.3
 'use strict';
-
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to recursively match all subfolders:
-// 'test/spec/**/*.js'
-
 module.exports = function(grunt) {
     // show elapsed time at the end
     require('time-grunt')(grunt);
     // load all grunt tasks
     require('load-grunt-tasks')(grunt);
-
     grunt.initConfig({
         // configurable paths
         yeoman: {
@@ -29,6 +20,11 @@ module.exports = function(grunt) {
                         '!<%= yeoman.dist %>/.git*'
                     ]
                 }]
+            }
+        },
+        bower: {
+            install: {
+                //just run 'grunt bower:install' and you'll see files from your Bower packages in lib directory
             }
         },
         jshint: {
@@ -49,58 +45,16 @@ module.exports = function(grunt) {
                     urls: ['test/index.html']
                 }
             }
-        },
-        rev: {
-            dist: {
-                files: {
-                    src: [
-                        '<%= yeoman.dist %>/scripts/{,*/}*.js',
-                        '<%= yeoman.dist %>/styles/{,*/}*.css',
-                        '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
-                        '<%= yeoman.dist %>/styles/fonts/{,*/}*.*'
-                    ]
-                }
-            }
-        },
-        // Put files not handled in other tasks here
-        copy: {
-            dist: {
-                files: [{
-                    expand: true,
-                    dot: true,
-                    cwd: '<%= yeoman.app %>',
-                    dest: '<%= yeoman.dist %>',
-                    src: [
-                        '*.{ico,png,txt}',
-                        '.htaccess',
-                        'images/{,*/}*.{webp,gif}',
-                        'styles/fonts/{,*/}*.*'
-                    ]
-                }]
-            },
-            styles: {
-                expand: true,
-                dot: true,
-                cwd: '<%= yeoman.app %>/styles',
-                dest: '.tmp/styles/',
-                src: '{,*/}*.css'
-            }
         }
     });
 
     grunt.registerTask('test', [
+        'bower',
         'mocha'
     ]);
-
-    grunt.registerTask('build', [
-        'clean:dist',
-        'copy:dist',
-        'rev'
-    ]);
-
     grunt.registerTask('default', [
+        'bower',
         'jshint',
-        'test',
-        'build'
+        'test'
     ]);
 };
