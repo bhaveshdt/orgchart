@@ -2,38 +2,48 @@ JavaScript-based Organizational Chart
 ========================
 [![Build Status](https://travis-ci.org/bhaveshdt/orgchart.png?branch=master)](https://travis-ci.org/bhaveshdt/orgchart)
 
+#### Summary
+An Organizational Chart written in Javascript with a slight dependency on JQuery supported by the Canvas HTML5 element.
 
+#### Live Demo
+http://plnkr.co/8aDCyKdWP2DbiXakKinr
+
+#### JavaScript and CSS
+```javascript
 <link rel="stylesheet" href="//raw.github.com/bhaveshdt/orgchart/master/src/styles/orgchart.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" />
+<script src="//raw.github.com/bhaveshdt/orgchart/master/src/scripts/orgchart.js" />
+```
 
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
-</script>
-
-
-<script src="//raw.github.com/bhaveshdt/orgchart/master/src/scripts/orgchart.js">
-</script>
-
-
-<input id="showTreeInput" type="text" value="1" />
-
-
-<input type="radio" name="orientation" value="vertical" checked="checked" />
-
-
-<span>Vertical</span>
-
-
-<input type="radio" name="orientation" value="horizontal" />
-
-
-<span>Horizontal</span>
-
-
+#### Dom Container 
+```
 <div id="family" ></div>
+```
 
+#### Instantiate OrgChart 
+```
+var myChart = new OrgChart({
+	data: data, // pass data here
+	id: 'family', // id of the container element
+	margin: 20, // space between node elements
+	elHeight: 40, // height of a single node element
+	elWidth: 100, // width of a single node element
+	createNodeElement: function(member) { // function to create a single node element
+		var el = document.createElement('div');
+		$(el).html(member[3] + '(' + member[0] + ')');
+		return el;
+	}
+});
+```
 
-<script type="text/javascript" >
+#### Create Chart for a single member with horizontal orientation
+```myChart.create(<member-id-value>, "horizontal");```
 
+#### Create Chart for a single member with vertical orientation 
+```myChart.create(<member-id-value>", "vertical");```
+
+#### Sample Data
+```
 var data = [
 	[1, 2, 3, '111 Child'],
 	[2, 9, 21, '11 Child'],
@@ -59,27 +69,4 @@ var data = [
 	[22, null, null, '111 Child Spouse'],
 	[23, 16, null, '113211 Child']
 ];
-
-
-// Instantiate Chart Test Object
-var chart = new OrgChart({
-	data: data,
-	id: 'family',
-	margin: 20,
-	elHeight: 40,
-	elWidth: 100,
-	createNodeElement: function(member) {
-		var el = document.createElement('div');
-		$(el).html(member[3] + '(' + member[0] + ')');
-		return el;
-	}
-});
-
-var createChart = function () {
-	chart.create($('#showTreeInput').val(), $('input[name="orientation"]:checked').val());
-	$('#showTreeInput').select();
-};
-$('#showTreeInput').change(createChart);
-$('input[name="orientation"]').click(createChart);
-$('#showTreeInput').change();
-</script>
+```
