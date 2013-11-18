@@ -72,7 +72,7 @@ var data = [
 ```
 
 #### TO-DO
-Remove dependency on JQuery
-Dynamically derive node height and width based on the "node create" function (currently relies on both css/js to be in sync)
-Allow more than 2 parents
-Register with Bower
+* Remove dependency on JQuery
+* Dynamically derive node height and width based on the "node create" function (currently relies on both css/js to be in sync)
+* Allow more than 2 parents
+* Register with Bower
