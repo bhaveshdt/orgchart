@@ -3,7 +3,7 @@ JavaScript-based Organizational Chart
 [![Build Status](https://travis-ci.org/bhaveshdt/orgchart.png?branch=master)](https://travis-ci.org/bhaveshdt/orgchart)
 
 #### Summary
-An Organizational Chart written in Javascript with a slight dependency on JQuery supported by the Canvas HTML5 element.
+A data-driven Organizational Chart written in Javascript with a slight dependency on JQuery supported by the Canvas HTML5 element.
 
 #### Live Demo
 http://plnkr.co/8aDCyKdWP2DbiXakKinr
@@ -45,7 +45,7 @@ var myChart = new OrgChart({
 #### Sample Data
 ```
 var data = [
-	[1, 2, 3, '111 Child'],
+	[1, 2, 3, '111 Child'], // [<member-id>, <parent-1-id>, <parent-2-id>, ..<any-other-data>..]
 	[2, 9, 21, '11 Child'],
 	[3, null, null, '11 Child Spouse'],
 	[4, null, null, '112 Child Spouse'],
@@ -70,3 +70,9 @@ var data = [
 	[23, 16, null, '113211 Child']
 ];
 ```
+
+#### TO-DO
+Remove dependency on JQuery
+Dynamically derive node height and width based on the "node create" function (currently relies on both css/js to be in sync)
+Allow more than 2 parents
+Register with Bower
