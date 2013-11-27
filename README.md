@@ -8,6 +8,15 @@ A data-driven Organizational Chart written in Javascript with a slight dependenc
 #### Live Demo
 http://plnkr.co/8aDCyKdWP2DbiXakKinr
 
+#### Getting Started
+* pre-requisite: node.js
+
+```
+git clone https://github.com/bhaveshdt/orgchart.git
+npm install
+grunt
+```
+
 #### JavaScript and CSS
 ```javascript
 <link rel="stylesheet" href="//raw.github.com/bhaveshdt/orgchart/master/src/styles/orgchart.css" />
