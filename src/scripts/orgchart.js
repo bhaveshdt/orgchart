@@ -115,7 +115,7 @@ function TreeDataManager(rawData) {
 		return [data.members[m[1]], data.members[m[2]]].filter(Boolean);
 	};
 }
-var DomAccessor = (function($$) {
+var DomAccessor = (function($$, wnd, doc) {
 	return {
 		addClass: function(el, className) {
 			$$(el).addClass(className);
@@ -124,7 +124,7 @@ var DomAccessor = (function($$) {
 			$$(el).attr(attr, val);
 		},
 		createEl: function(elName, id, style) {
-			var el = document.createElement(elName);
+			var el = doc.createElement(elName);
 			$$(el).attr('id', id);
 			$$(el).attr('style', style);
 			return el;
@@ -136,10 +136,10 @@ var DomAccessor = (function($$) {
 			return (width ? $$(container).width(width) : $$(container).width());
 		},
 		height: function(container, height) {
-			$$(container).height(height);
+			return (height ? $$(container).height(height) : $$(container).height());
 		},
 		byId: function(id) {
-			return document.getElementById(id);
+			return doc.getElementById(id);
 		},
 		removeClass: function(el) {
 			$$(el).removeClass();
@@ -148,7 +148,7 @@ var DomAccessor = (function($$) {
 			$$(el).css(attr, val);
 		}
 	};
-})(jQuery);
+})(jQuery, window, document);
 
 /**
  * Draws the lines connecting the nodes of the tree
@@ -286,24 +286,26 @@ function OrgChart(context, undefined) {
 			}
 			DomAccessor.append(root.container, descendantRoot.el);
 			var property = get(isVerticalOrientation, 'left', 'top');
+			var attribute = get(isVerticalOrientation, 'height', 'width');
+			var descendantContainerAdjustment = get(isVerticalOrientation, DomAccessor.height(descendantRoot.container)+context.elHeight, DomAccessor.width(descendantRoot.container)+context.elWidth);
 			var ancestorValue = ancestorRoot.position[property.target];
 			var descendantValue = descendantRoot.position[property.target];
 			var value = get(ancestorValue < descendantValue, ancestorValue, descendantValue);
 			var element = get(ancestorValue < descendantValue, ancestorRoot.container, descendantRoot.container);
 			//console.log(JSON.stringify([property.target, ancestorValue, descendantValue]));
 			DomAccessor.css(element.target, property.target, Math.abs(ancestorValue - descendantValue));
+			DomAccessor.css(descendantRoot.container, attribute.target, descendantContainerAdjustment.target);
 			DomAccessor.css(root.el, property.target, value.target);
 			DomAccessor.css(root.container, property.target, Math.abs(ancestorValue - descendantValue));
-			DomAccessor.css(treeContainer, 'width', DomAccessor.width(ancestorRoot.container) + DomAccessor.width(descendantRoot.container));
 		}
 
 		reset(DomAccessor.byId(context.id));
 		context.isVerticalOrientation = (orientation === 'vertical');
 		var treeDimensions = dataManager.findTreeDimensions(memberId);
 		//console.log('CREATE TREE -------------------------------------------------------------');
-		var ancestorRoot = new TreeCreator(DomAccessor.byId(context.id), context.createNodeElement, treeDimensions, prepareContext(true), 0, 0);
-		var root = new TreeCreator(DomAccessor.byId(context.id), context.createNodeElement, treeDimensions, prepareContext(false, true), 0, 0, ancestorRoot.el);
-		var descendantRoot = new TreeCreator(DomAccessor.byId(context.id), context.createNodeElement, treeDimensions, prepareContext(false), 0, 0, root.el);
+		var ancestorRoot = new TreeCreator(DomAccessor.byId(context.id), context.createNodeElement, prepareContext(true), 0, 0);
+		var root = new TreeCreator(DomAccessor.byId(context.id), context.createNodeElement, prepareContext(false, true), 0, 0, ancestorRoot.el);
+		var descendantRoot = new TreeCreator(DomAccessor.byId(context.id), context.createNodeElement, prepareContext(false), 0, 0, root.el);
 		adjustHeight(DomAccessor.byId(context.id), ancestorRoot, descendantRoot, root, context.isVerticalOrientation);
 
 	};
@@ -311,7 +313,7 @@ function OrgChart(context, undefined) {
 	 * Iterate through the ancestors and descendants and create and position the nodes
 	 */
 
-	function TreeCreator(rootEl, nodeCreator, treeDimensions, creatorContext, plevel, slevel, el) {
+	function TreeCreator(rootEl, nodeCreator, creatorContext, plevel, slevel, el) {
 		function create(plevel, slevel, el) {
 			//console.log(JSON.stringify(creatorContext.rootMember));
 			DomAccessor.append(rootEl, containerEl = DomAccessor.createEl('div', creatorContext.id, 'float:left;position:relative;' + (context.isVerticalOrientation ? 'clear:both;' : '')));
@@ -344,7 +346,7 @@ function OrgChart(context, undefined) {
 					}
 				}
 			}
-			var position = positionCalculator.evaluatePosition(el, plevel, slevel, isleaf, firstChild, lastChild, creatorContext.elevator, creatorContext.dimensions); // update coordiantes
+			var position = positionCalculator.evaluatePosition()(el, plevel, slevel, isleaf, firstChild, lastChild, creatorContext.elevator, creatorContext.dimensions); // update coordiantes
 			el.style.top = position.top + 'px';
 			el.style.left = position.left + 'px';
 			//console.log('Draw Position: ' + JSON.stringify([m, position, childrenPositions]));
@@ -363,7 +365,7 @@ function OrgChart(context, undefined) {
 
 		function appendNodeWithEl(m, el) {
 			DomAccessor.append(containerEl, el);
-			DomAccessor.setAttr(el, 'id', 'family' + m[0]);
+			DomAccessor.setAttr(el, 'id', context.id + m[0]);
 			DomAccessor.addClass(el, 'member');
 			return el;
 		}

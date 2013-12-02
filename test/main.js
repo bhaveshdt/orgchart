@@ -27,19 +27,6 @@ var data = [
 ];
 
 
-// Instantiate Chart Test Object
-var chart = new OrgChart({
-	data: data,
-	id: 'family',
-	margin: 20,
-	elHeight: 40,
-	elWidth: 100,
-	createNodeElement: function(member) {
-		var el = document.createElement('div');
-		$(el).html(member[3] + '(' + member[0] + ')');
-		return el;
-	}
-});
 
 // Run Tests
 (function() {
@@ -51,6 +38,24 @@ var chart = new OrgChart({
 					(m = data[i]); i++) {
 					(function(m) {
 						it('test for member=[' + m[3] + '] with orientation=[' + orientation + ']', function() {
+							var treeContainerId = "orgchart_" + m[0] + "_" + orientation;
+							// Instantiate Chart Test Object
+							var chart = new OrgChart({
+								data: data,
+								id: treeContainerId,
+								margin: 20,
+								elHeight: 40,
+								elWidth: 100,
+								createNodeElement: function(member) {
+									var el = document.createElement('div');
+									$(el).html(member[3] + '(' + member[0] + ')');
+									return el;
+								}
+							});
+							// create container element							
+							jQuery('body').append("<hr style='clear:both;' /><div>" + treeContainerId + "</div><hr style='clear:both;'/>");
+							jQuery('body').append("<span>before</span><div id='" + treeContainerId + "'></div><span>after</span>");
+							// create tree
 							chart.create(m[0], orientation);
 						});
 					})(m);
